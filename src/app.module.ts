@@ -1,10 +1,22 @@
+import { ConfigModule, ConfigService } from 'nestjs-config';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import * as path from 'path';
+import { RoutesModule } from './routes/routes.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    RoutesModule,
+    ConfigModule.load(path.resolve(__dirname, 'config', '**/!(*.d).{ts,js}')),
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  static host: string;
+  static httpsOn: 'http' | 'https';
+  static port: number;
+
+  constructor(private readonly config: ConfigService) {
+    AppModule.port = config.get('app.port');
+    AppModule.httpsOn = config.get('app.httpsOn');
+    AppModule.host = config.get('app.host');
+  }
+}
