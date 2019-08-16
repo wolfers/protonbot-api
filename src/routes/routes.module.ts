@@ -2,11 +2,11 @@ import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformResponse } from '../middleware/response.interceptor';
 
-import { DiscordModule } from './discord/discord.module';
+import { ShopModule } from './shop/shop.module';
 
-import { DiscordController } from './discord/discord.controller';
+import { ShopController } from './shop/shop.controller';
 @Module({
-    imports: [DiscordModule,],
+    imports: [ShopModule,],
     providers: [
         {
             provide: APP_INTERCEPTOR,
@@ -18,6 +18,6 @@ export class RoutesModule {
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(
             //middleware here
-        ).forRoutes(DiscordController);
+        ).forRoutes(ShopController);
     }
 }
